@@ -22,7 +22,7 @@ AI-powered research and analysis of crypto projects.
 LLM-based text content generation.
 
 **Components:**
-- `llm_client.py` - Unified LLM client (OpenAI, Anthropic)
+- `llm_client.py` - Unified LLM client (OpenAI, Anthropic, Hermes)
 - `prompt_manager.py` - Prompt template management
 - `generators.py` - Content generation functions
 - `api.py` - FastAPI endpoints
@@ -119,7 +119,9 @@ Required:
 - `VEO_API_KEY` - VEO3.1 for videos
 
 Optional:
-- `ANTHROPIC_API_KEY` - Alternative LLM provider
+- `ANTHROPIC_API_KEY` - Alternative LLM provider (Claude models)
+- `HERMES_API_KEY` - Alternative LLM provider (Hermes models from Nous Research)
+- `HERMES_API_URL` - Hermes API base URL (default: https://inference-api.nousresearch.com)
 - `DATABASE_URL` - Database connection string
 - `API_PORT` - API server port (default: 8000)
 

@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     # API Keys
     OPENAI_API_KEY: str
     ANTHROPIC_API_KEY: Optional[str] = None
+    HERMES_API_KEY: Optional[str] = None
     NANO_BANANA_API_KEY: str
     VEO_API_KEY: str
 
@@ -26,6 +27,7 @@ class Settings(BaseSettings):
     DEFAULT_LLM_MODEL: str = "gpt-4o-mini"
     LLM_TEMPERATURE: float = 0.7
     LLM_MAX_TOKENS: int = 1000
+    HERMES_API_URL: str = "https://inference-api.nousresearch.com"
 
     # Database
     DATABASE_URL: str = "sqlite:///./data/crypto_content.db"
