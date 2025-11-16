@@ -1,5 +1,7 @@
 """Unified LLM client supporting multiple providers."""
 from typing import Optional, List
+import json
+import httpx
 from tenacity import retry, stop_after_attempt, wait_exponential
 
 
@@ -11,7 +13,7 @@ class LLMClient:
         Initialize LLM client.
 
         Args:
-            provider: 'openai', 'anthropic', or 'groq'
+            provider: 'openai', 'anthropic', or 'hermes'
             model: Model name
         """
         self.provider = provider
@@ -34,6 +36,12 @@ class LLMClient:
                 self.client = AsyncAnthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
             except ImportError:
                 raise ImportError("Please install anthropic: pip install anthropic")
+        elif self.provider == "hermes":
+            import os
+            self.api_key = os.getenv("HERMES_API_KEY")
+            self.base_url = os.getenv("HERMES_API_URL", "https://inference-api.nousresearch.com")
+            if not self.api_key:
+                raise ValueError("HERMES_API_KEY environment variable is required")
         else:
             raise ValueError(f"Unsupported provider: {self.provider}")
 
@@ -65,6 +73,10 @@ class LLMClient:
             )
         elif self.provider == "anthropic":
             return await self._generate_anthropic(
+                prompt, system_prompt, max_tokens, temperature
+            )
+        elif self.provider == "hermes":
+            return await self._generate_hermes(
                 prompt, system_prompt, max_tokens, temperature
             )
 
@@ -108,6 +120,39 @@ class LLMClient:
 
         response = await self.client.messages.create(**kwargs)
         return response.content[0].text
+
+    async def _generate_hermes(
+        self, prompt: str, system_prompt: Optional[str], max_tokens: int,
+        temperature: float
+    ) -> str:
+        """Generate using Hermes API (Nous Research)."""
+        messages = []
+        if system_prompt:
+            messages.append({"role": "system", "content": system_prompt})
+        messages.append({"role": "user", "content": prompt})
+
+        payload = {
+            "model": self.model,
+            "messages": messages,
+            "max_tokens": max_tokens,
+            "temperature": temperature
+        }
+
+        headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Content-Type": "application/json"
+        }
+
+        async with httpx.AsyncClient() as client:
+            response = await client.post(
+                f"{self.base_url}/v1/chat/completions",
+                json=payload,
+                headers=headers,
+                timeout=60.0
+            )
+            response.raise_for_status()
+            result = response.json()
+            return result["choices"][0]["message"]["content"]
 
     def count_tokens(self, text: str) -> int:
         """Count tokens in text for cost estimation."""
