@@ -7,26 +7,26 @@ class Settings(BaseSettings):
     """Application settings from environment variables."""
 
     # API Keys
-    OPENAI_API_KEY: str
+    HERMES_API_KEY: str
     ANTHROPIC_API_KEY: Optional[str] = None
-    HERMES_API_KEY: Optional[str] = None
+    OPENAI_API_KEY: Optional[str] = None
     NANO_BANANA_API_KEY: str
     VEO_API_KEY: str
 
     # AI Research Services
-    TAVILY_API_KEY: str
+    TAVILY_API_KEY: Optional[str] = None
     PERPLEXITY_API_KEY: Optional[str] = None
     EXA_API_KEY: Optional[str] = None
 
     # Research Configuration
-    DEFAULT_RESEARCH_SERVICE: str = "tavily"
+    DEFAULT_RESEARCH_SERVICE: str = "hermes"
     DEEP_RESEARCH_MODE: bool = True
 
     # LLM Configuration
-    DEFAULT_LLM_PROVIDER: str = "openai"
-    DEFAULT_LLM_MODEL: str = "gpt-4o-mini"
+    DEFAULT_LLM_PROVIDER: str = "hermes"
+    DEFAULT_LLM_MODEL: str = "Hermes-4-70B"
     LLM_TEMPERATURE: float = 0.7
-    LLM_MAX_TOKENS: int = 1000
+    LLM_MAX_TOKENS: int = 256
     HERMES_API_URL: str = "https://inference-api.nousresearch.com"
 
     # Database

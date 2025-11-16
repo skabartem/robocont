@@ -8,12 +8,12 @@ from tenacity import retry, stop_after_attempt, wait_exponential
 class LLMClient:
     """Unified LLM client supporting multiple providers."""
 
-    def __init__(self, provider: str = "openai", model: str = "gpt-4o-mini"):
+    def __init__(self, provider: str = "hermes", model: str = "Hermes-4-70B"):
         """
         Initialize LLM client.
 
         Args:
-            provider: 'openai', 'anthropic', or 'hermes'
+            provider: 'hermes', 'anthropic', or 'openai'
             model: Model name
         """
         self.provider = provider

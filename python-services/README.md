@@ -22,7 +22,7 @@ AI-powered research and analysis of crypto projects.
 LLM-based text content generation.
 
 **Components:**
-- `llm_client.py` - Unified LLM client (OpenAI, Anthropic, Hermes)
+- `llm_client.py` - Unified LLM client (Hermes, Anthropic, OpenAI)
 - `prompt_manager.py` - Prompt template management
 - `generators.py` - Content generation functions
 - `api.py` - FastAPI endpoints
@@ -113,15 +113,17 @@ Once the server is running, visit:
 ## Environment Variables
 
 Required:
-- `OPENAI_API_KEY` - OpenAI API key for text generation
-- `TAVILY_API_KEY` - Tavily AI for research
+- `HERMES_API_KEY` - Hermes API key for text generation (Nous Research)
 - `NANO_BANANA_API_KEY` - Nano Banana for images
 - `VEO_API_KEY` - VEO3.1 for videos
 
 Optional:
-- `ANTHROPIC_API_KEY` - Alternative LLM provider (Claude models)
-- `HERMES_API_KEY` - Alternative LLM provider (Hermes models from Nous Research)
 - `HERMES_API_URL` - Hermes API base URL (default: https://inference-api.nousresearch.com)
+- `ANTHROPIC_API_KEY` - Alternative LLM provider (Claude models)
+- `OPENAI_API_KEY` - Alternative LLM provider (GPT models)
+- `TAVILY_API_KEY` - Alternative research service (Tavily AI)
+- `PERPLEXITY_API_KEY` - Alternative research service (Perplexity AI)
+- `EXA_API_KEY` - Alternative research service (Exa AI)
 - `DATABASE_URL` - Database connection string
 - `API_PORT` - API server port (default: 8000)
 
